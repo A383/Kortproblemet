@@ -1,0 +1,74 @@
+import random
+
+#Definierar vad ett kort är: Det har en färg och ett värde
+class Kort:
+    def __init__(self, farg, varde,):
+        self.farg = farg
+        self.varde = varde
+
+kortlek = []
+
+#För att snabbt skapa kort.
+def SkapaKort(antal, farg):
+    for i in range(antal):
+        kortlek.append(Kort(farg, i+1))
+
+#Fyller kortleken med 13 av varje färg
+SkapaKort(13, "Ruter")
+SkapaKort(13, "Hjärter")
+SkapaKort(13, "Spader")
+SkapaKort(13, "Klover")
+
+#Nedan följer mindre program som har varsin uppgift och alla används sedan i huvudprogrammet som kommer längre ner.
+#Räknar hur många spader det finns i en given lista
+def kontrollSpader(lista):
+    spader = 0
+    for k in range(len(lista)):
+        if lista[k]. farg == "Spader":
+            spader+=1
+    return spader
+
+#Räknar hur många kort av värde fyra det finns i en lista
+def kontrollVarde(lista):
+    vardeFyra = 0
+    for l in range(len(lista)):
+        if lista[l].varde == 4:
+            vardeFyra+=1
+    return vardeFyra
+
+#Kollar om spaderfyra finns bland korten i en lista.
+def kontrollSpaderFyra(lista):
+    for m in range(len(lista)):
+        if lista[m].varde == 4 and lista[m].farg == "Spader":
+            return True
+    return False
+        
+#Antalet totala iterationer som sker med händer som ej uppfyller kraven inräknade.
+totaltAntalForsok = 0
+
+#Totala antalet spaderfyra som räknas i loopen
+spaderfyra = 0
+
+#Frågar hur många lyckadeförsök som ska genomföras (försök där det finns två fyror och två spader bland de fyra korten)
+antalLyckadeHander = int(input("Hur många gånger måste en hand som uppnår alla kriterier förkomma?"))
+
+#Huvudloopen som medhjälp av de mindre programmen räknar antalet spaderfyra som uppkommer i godkända händer
+j = 0
+while j < antalLyckadeHander:
+    totaltAntalForsok += 1
+    random.shuffle(kortlek)
+    fyraForsta = kortlek[0:4]
+
+    antalspader = kontrollSpader(fyraForsta)
+    antalfyror = kontrollVarde(fyraForsta)
+
+    if antalspader == 2 and antalfyror == 2:
+        j+=1
+
+        if kontrollSpaderFyra(fyraForsta) == True:
+            spaderfyra = spaderfyra + 0.5
+
+
+
+print("Antal SpaderFyra: " + str((spaderfyra / antalLyckadeHander) * 100 ) + "%")
+print("Antalet Försök Totalt: " + str(totaltAntalForsok))
